@@ -15,7 +15,7 @@ It is slightly modified as per the needs.
 #### app.py
 Note: app.py is a work in progress. it does not work as expected, as of this commit. 
 
-The app can either use the webcam feed or identify the faces in the test folder. Its pretty straight forward to use.
+The app can identify the faces in the test folder. Its pretty straight forward to use.
 It draws a box over the identified face and labels the predicted emotion. 
 
 ## How it works
