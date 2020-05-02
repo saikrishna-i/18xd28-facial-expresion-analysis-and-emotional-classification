@@ -133,3 +133,4 @@ dmypy.json
 *.code-workspace
 #temp files
 temp/
+test/
