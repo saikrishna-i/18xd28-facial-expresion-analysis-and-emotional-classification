@@ -1,12 +1,22 @@
-# this is the finall app that will load the trained model and take input from
-# webcam. work on it after the model is done
-# load and evaluate a saved model
 import numpy as np
 from numpy import loadtxt
 from keras.models import load_model
 from keras.models import model_from_json
 from keras.preprocessing import image
+import cv2
+import os
+import glob
+# to store temp files and the result
+try:  
+    os.mkdir('temp')  
+except OSError as error:  
+    print(error)   
 
+jpg_files = glob.glob('test/*.jpg')
+png_files = glob.glob('test/*.png')
+img_files = jpg_files + png_files
+
+#load the trained model
 json_file = open('model/model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
@@ -14,18 +24,53 @@ loaded_model = model_from_json(loaded_model_json)
 # load weights into new model
 loaded_model.load_weights("model/model.h5")
 print("Loaded model from disk")
-loaded_model.summary()
+#loaded_model.summary()
 
-test_img=[]
-img = image.load_img('test/h.png', 
-                         target_size=(48,48,1),
-                         color_mode="grayscale")
-  # convert image to an numpy array
-img =  image.img_to_array(img)
-# to keep the values from 0 to 1
-img = img/255
-test_img.append(img)
-test = np.array(test_img)
-prediction = loaded_model.predict_classes(test)
-emotions=['anger','contempt','disgust','fear','happy','sadness','surprise']
-print(emotions[prediction[0]])
+# classifier for faces
+face_cascade = cv2.CascadeClassifier('include/haarcascade_frontalface_default.xml')
+
+
+# Analysing all pictures in test folder
+for img_file in img_files:
+    img = cv2.imread(img_file)
+    # Convert into grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # Detect faces
+    #this returns the 4 corners of the face
+    faces_list = face_cascade.detectMultiScale(gray, 1.1, 4)
+    if len(faces_list)!=0:
+        print("Detected "+ str(len(faces_list))+" faces in " + img_file)
+        faces = { id:face for id,face in enumerate(faces_list)}
+        test=[]
+        # Detect and extract the faces from the image
+        for face_id in faces:
+            x, y, w, h = faces[face_id] 
+            face_img = img[y:y+h, x:x+w]
+            cv2.imwrite('temp/'+str(face_id)+'.png',face_img)
+            test_img = image.load_img('temp/'+str(face_id)+'.png',target_size=(48,48,1)
+                                      , color_mode='grayscale')
+            test_img = image.img_to_array(test_img)
+            test_img = test_img/255
+            test.append(test_img)
+        T = np.array(test)
+
+        print("Predicting Emotions")
+        # Predict the emotion of the face
+        prediction = loaded_model.predict_classes(T)
+
+        # draw a rectangle around the face and label it
+        emotions=['Anger','Contempt','Disgust','Fear','Happiness','Sadness','Surprise']
+        for face_id in faces:
+            x, y, w, h = faces[face_id] 
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+            cv2.putText(img,emotions[prediction[face_id]],(x,y-8),cv2.FONT_HERSHEY_PLAIN,0.5,(255,0,0),1)
+            os.remove('temp/'+str(face_id)+'.png')
+        # Display the output
+        #imS =   cv2.resize(img, (0,0), fx=0.50, fy=0.50) 
+        print("Writing Output for " + img_file)
+        filename =  img_file.replace('test/','temp/res-') 
+        cv2.imwrite(filename, img)
+    else:
+        print("No faces detected in " + img_file)
+
+print("Completed\nCheck the results in the temp folder")
