@@ -17,7 +17,7 @@ print("Loaded model from disk")
 loaded_model.summary()
 
 test_img=[]
-img = image.load_img('test/s.png', 
+img = image.load_img('test/h.png', 
                          target_size=(48,48,1),
                          color_mode="grayscale")
   # convert image to an numpy array
