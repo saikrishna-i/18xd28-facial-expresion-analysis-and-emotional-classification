@@ -9,13 +9,16 @@ The trained model and data set used is present in the repository. The model can 
 Please make sure the neccessary libraries are present (in requirements.txt file)
 
 The data is a ck+ dataset taken from https://www.kaggle.com/shawon10/ckplus
+
 It is slightly modified as per the needs.
 
 #### app.py
+Note: app.py is a work in progress. it does not work as expected, as of this commit. 
+
 The app can either use the webcam feed or identify the faces in the test folder. Its pretty straight forward to use.
 It draws a box over the identified face and labels the predicted emotion. 
 
 ## How it works
-It is a simple deep learning model using the keras library. The comments in the ipython notebook give a brief overview of the steps. 
+It is a simple deep learning model using the keras library. The comments in the ipython notebook give a brief overview of the steps. It is a Sequential model from Keras. It has a simple architecture with 2 convolutional layers, one dense hidden layer and an output layer.
 
 Increasing the amount of data can improve the performance significantly, but it will also increase the computational demand.
