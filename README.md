@@ -13,8 +13,13 @@ The data is a ck+ dataset taken from https://www.kaggle.com/shawon10/ckplus
 It is slightly modified as per the needs.
 
 #### app.py
-Note: app.py is a work in progress. it does not work as expected, as of this commit. 
-
+```
+Install the required libraries into a virtual environment
+Create a directory called test in the same directory as the app.py
+Place images into the directory
+Run app.py 
+The results will be in a folder called temp in the same directory
+```
 The app can identify the faces in the test folder. Its pretty straight forward to use.
 It draws a box over the identified face and labels the predicted emotion. 
 
