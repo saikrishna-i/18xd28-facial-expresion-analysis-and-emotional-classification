@@ -131,3 +131,5 @@ dmypy.json
 #vscode config
 .vscode/
 *.code-workspace
+#temp files
+temp/
