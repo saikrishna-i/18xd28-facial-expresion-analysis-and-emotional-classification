@@ -10,6 +10,8 @@ Please make sure the neccessary libraries are present (in requirements.txt file)
 
 The data is a ck+ dataset taken from https://www.kaggle.com/shawon10/ckplus
 
+It is slightly modified as per the needs.
+
 #### app.py
 The app can either use the webcam feed or identify the faces in the test folder. Its pretty straight forward to use.
 It draws a box over the identified face and labels the predicted emotion. 
