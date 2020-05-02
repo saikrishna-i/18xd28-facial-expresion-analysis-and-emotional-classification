@@ -9,7 +9,6 @@ The trained model and data set used is present in the repository. The model can 
 Please make sure the neccessary libraries are present (in requirements.txt file)
 
 The data is a ck+ dataset taken from https://www.kaggle.com/shawon10/ckplus
-
 It is slightly modified as per the needs.
 
 #### app.py
