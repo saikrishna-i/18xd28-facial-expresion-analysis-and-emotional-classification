@@ -64,7 +64,7 @@ if len(img_files) !=0:
             for face_id in faces:
                 x, y, w, h = faces[face_id] 
                 cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-                cv2.putText(img,emotions[prediction[face_id]],(x,y-8),cv2.FONT_HERSHEY_SIMPLEX,min(img.shape[0],img.shape[1])/1000,(255,0,0),2)
+                cv2.putText(img,emotions[prediction[face_id]],(x,y-8),cv2.FONT_HERSHEY_SIMPLEX,max(min(img.shape[0],img.shape[1])/1250,0.6),(255,0,0),2)
                 os.remove('temp/'+str(face_id)+'.png')
             print("Writing Output for " + img_file)
             filename =  img_file.replace('test/','temp/res'+datetime.now().strftime("_%m-%d-%Y_%H-%M-%S_"))
